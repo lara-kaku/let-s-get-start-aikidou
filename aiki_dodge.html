@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合気道師範の薪よけゲーム</title>
+    <link rel="stylesheet" href="aiki_dodge.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="status-bar">
+            <div id="hp">HP: 50</div>
+            <div id="score">桜: 0 / 5</div>
+            <button id="end-game-button" style="display: none;">ゲームを終了</button>
+        </div>
+
+       
+        <div id="game-area">
+            <img id="player" src="sihanaikon5.png" alt="合気道師範のイラスト">
+        </div>
+
+        <div id="overlay">
+            <h1 id="title">薪よけ師範</h1>
+            <div id="rules-box">
+                <h2>ルール説明</h2>
+                <p>師範を左右に操作して上から降ってくるものをよけよう！</p>
+                <ul>
+                    <li>🕒制限時間は３０秒</li>
+                    <li>🪵 **薪 (`🪵`) に当たると:** HPが **10** 減ります。</li>
+                    <li>🌸 **桜 (`🌸`) を集めると:** 桜が **1** 個増えます。各ステージの目標数 (**5個**) を集めよう！</li>
+                    <li>🍺 **ビールジョッキ (`🍺`) を集めると:** HPが **20** 回復します。</li>
+                    <li>HPがなくなったらゲームオーバーです。</li>
+                </ul>
+            </div>
+
+            <div id="pause-menu" style="display: none; text-align: center; margin-top: 20px;">
+                <h3>ゲーム中断中</h3>
+                <button id="resume-button">ゲームに戻る</button>
+                <button id="quit-button" style="margin-left: 10px;">ゲームを終了する</button>
+            </div>
+            
+            <p id="message">クリックまたはタップでスタート</p>
+            <button id="start-button">ゲームスタート</button>
+
+        </div>
+
+        <div id="mobile-controls">
+            <button id="left-button">← 左</button>
+            <button id="right-button">右 →</button>
+        </div>
+
+        
+
+    </div>
+
+        <div id="flow-button-container">
+            <button id="return-to-flow-button" class="action-button">合気道適性診断に戻る</button>
+            
+        </div>
+
+
+    <script src="aiki_dodge.js"></script>
+</body>
+</html>

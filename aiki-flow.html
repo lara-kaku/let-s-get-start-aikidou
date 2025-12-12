@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>はじめてみようか悩んだら | フローチャート｜宇佐合気道会</title>
+    <link rel="stylesheet" href="style.css" /> 
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="title-text">
+                <div id="main-title">
+                    <span class="char-block color-orange">宇</span>
+                    <span class="char-block color-green">佐</span>
+                    <span class="char-block color-blue">合</span>
+                    <span class="char-block color-pink">気</span>
+                    <span class="char-block color-yellow">道</span>
+                    <span class="char-block color-purple">会</span>
+                </div>
+                <div id="sub-title">
+                    <span class="char-block color-blue">適性診断＆ミニゲーム</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section id="flow-section-plaque">
+            <div class="flow-main-title">
+                <img src="sihanaikon.png" alt="合気道アイコン" class="swing-icon" />
+                <h1>合気道</h1>
+                <p>「はじめて見ようか」悩んだら</p>
+            </div>
+
+            <div id="flow-container">
+                <div id="flow-content">
+                    <p id="question-text">診断を開始します...</p>
+                    <div id="result-description" style="display: none;"></div>
+                </div>
+                
+                <div id="flow-controls">
+                    <button id="yes-button" class="leaf-btn yes">はい</button>
+                    <button id="no-button" class="leaf-btn no">いいえ</button>
+                    <button id="restart-button" class="leaf-btn restart" style="display:none;">もう一度診断する✨</button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="result-area" id="game-start-area" style="text-align: center; margin-top: 40px;">
+            <a href="aiki_dodge.html" class="btn btn-3d-flip btn-3d-flip2">
+                <span class="btn-3d-flip-box2">
+                    <span class="btn-3d-flip-box-face btn-3d-flip-box-face--front-game">
+                        集中力を鍛錬しよう！ゲームはこちら！！
+                    </span>
+                    <span class="btn-3d-flip-box-face btn-3d-flip-box-face--back-game">
+                        『よける』＆『とる』稽古、スタート！
+                    </span>
+                </span>
+            </a>
+        </section>    
+
+        <section class="sub-navigation">
+            <ul>
+                <li><a href="index.html" class="button-stump">トップページに戻る</a></li>
+                <li><a href="past.html" class="button-stump">過去の活動を見る</a></li>
+                <li><a href="youtube.html" class="button-stump">動画を見る</a></li>
+                <li><a href="faq.html" class="button-stump">質問コーナー</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>©非公式 2025 宇佐合気道会</p>
+    </footer>
+
+    <script src="aiki-flow-style.js" defer></script> 
+</body>
+</html>
