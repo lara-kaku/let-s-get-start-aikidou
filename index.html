@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>メイン｜宇佐合気道会</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="title-text">
+                <div id="main-title">
+                    <span class="char-block color-orange">宇</span>
+                    <span class="char-block color-green">佐</span>
+                    <span class="char-block color-blue">合</span>
+                    <span class="char-block color-pink">気</span>
+                    <span class="char-block color-yellow">道</span>
+                    <span class="char-block color-purple">会</span>
+                </div>
+                <div id="sub-title">
+                    <span class="char-block color-pink">ホームページにようこそ</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="introduction">
+            <h1>⛩️ごあいさつ</h1>
+            <p>宇佐合気道会は合気道祥平塾の傘下道場です。</p>
+            <p>宇佐合気道会は、１９９２年（平成４年）宇佐警察署に勤務されいていた合気道経験者の豊田氏が発起人となり警察署の道場をお借りして数人で稽古を始めました。</p>
+            <p>翌年には宇佐合気道会として正式に発足し、稽古場所も現在地になりました。</p>
+            <p>当会は発足より祥平塾菅沼守人師範のご指導のもと稽古を続けています。菅沼師範の講習会や毎週水曜日と土曜日の稽古を通して合気道の楽しさや奥深さを体感しています。</p>
+        </section>
+
+        <section class="recruit">
+            <h1>
+                <span class="tree-icon">🌳</span>会員募集
+            </h1>
+            <p>初心者大歓迎　家族・親子・兄弟姉妹・祖父母孫での参加もお待ちしています。</p>
+            <p>年齢・性別関係なく、楽しく緩やかに合気道を行っています。</p>
+            <p>宇佐合気道会では、新しい仲間をいつでも歓迎しています。</p>
+            <p>「運動不足を解消したい」「家族で何か始めたい」など、きっかけは何でもOKです！</p>
+            <p>体験・見学は無料です。</p>
+            <p>興味・関心を持った方は迷わずお気軽にお問い合わせください。</p>
+            <p><strong>会費： 社会人 2,000円／月、学生 1,000円／月</strong></p>
+            
+            <div class="contact-info-block">
+                <h2>お問い合わせ</h2>
+                <p>090-○○○○-○○○○（永家まで）</p>
+            </div>
+        </section>
+
+        <section class="image">
+            <img src="審査風景.JPG" alt="稽古の様子" /> 
+        </section>
+
+        <section class="info">
+            <h2>🌿時間・場所</h2>
+            <div class="info-container">
+                <div class="info-text">
+                    <p>練習日：毎週水・土曜日 19時〜20時</p>
+                    <p>場所：宇佐市総合運動公園内 武道場</p>
+                    <p>住所：〒879-0452 大分県宇佐市川部1591</p>
+                    <p>電話：0978-37-3335</p>
+                </div>
+                <div class="info-map">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3342.0809633988135!2d131.3599911!3d33.5386907!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x354408ad205b065d%3A0x37b9b80e85fa82c1!2z44CSODc5LTA0NTIg5aSn6Ziq5bqc5biC5a6u5Yy65bed55Sw77yS5p2x5bGx77yR!5e0!3m2!1sja!2sjp!4v1716978266500!5m2!1sja!2sjp"
+                        width="100%"
+                        height="300"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="monthly-notice" class="notice">
+            <h2>🌸お知らせ</h2>
+            <div id="monthly-dynamic-notice"></div>
+            <div class="important-notes-block">
+                <h3>連絡</h3>
+                
+                <p>インフルエンザ対策の為入室時はアルコール消毒をお願いします。</p>
+                <p></p>
+            </div>
+        </section>
+
+        <section id="training-schedule-section">
+            <h1>
+                <img src="sihanaikon.png" alt="合気道アイコン" class="swing-icon" />
+                稽古日程
+            </h1>
+            <div class="controls">
+                <label for="year-select">年:</label>
+                <select id="year-select"></select>
+                <label for="month-select">月:</label>
+                <select id="month-select">
+                    <option value="0">1月</option>
+                    <option value="1">2月</option>
+                    <option value="2">3月</option>
+                    <option value="3">4月</option>
+                    <option value="4">5月</option>
+                    <option value="5">6月</option>
+                    <option value="6">7月</option>
+                    <option value="7">8月</option>
+                    <option value="8">9月</option>
+                    <option value="9">10月</option>
+                    <option value="10">11月</option>
+                    <option value="11">12月</option>
+                </select>
+            </div>
+            <div id="calendar-container">
+                <div id="calendar"></div>
+            </div>
+        </section>
+
+        <section class="sub-navigation">
+            <ul>
+                <li><a href="past.html" class="button-stump">過去の活動を見る</a></li>
+                <li><a href="youtube.html" class="button-stump">動画を見る</a></li>
+                <li><a href="faq.html" class="button-stump">質問コーナー</a></li>
+                <li><a href="aiki-flow.html" class="button-stump">合気道　適正診断</a></li>
+
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>©非公式 2025 宇佐合気道会</p>
+    </footer>
+
+    <script type="module" src="calendar.js" defer></script>
+</body>
+</html>
