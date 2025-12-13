@@ -51,13 +51,13 @@ body {
 /* ゲームエリア/プレイヤー */
 #game-area {
     /* PC/デフォルト時: 100% - 50px (status-bar) - 70px (flow-button) */
-    height: calc(100% - 50px - 70px); 
+    height: calc(100% - 120px); 
     position: relative;
     background: #f7f7f7;
 }
 #player {
     position: absolute;
-    bottom: 0px; 
+    bottom: 70px; 
     left: 50%;
     transform: translateX(-50%);
     width: 80px;
@@ -413,12 +413,10 @@ body {
         display: flex; 
         bottom: 70px; /* 戻るボタンの上に配置 */
         height: 50px; /* 高さを適用 */
+        padding: 5px 0;
     }
-    #game-container {
-        /* status-bar(50px) + flow-button(70px) + mobile-controls(60px) = 180px を引く */
-        height: calc(100vh - 60px); 
-        border-radius: 0;
-    }
+
+    
     #game-area {
         /* モバイル時: 100% - 50px(status) - 70px(flow) - 60px(mobile-controls) */
         height: calc(100% - 50px - 70px - 60px); /* プレイヤーが隠れないよう調整 */
