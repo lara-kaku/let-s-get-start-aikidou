@@ -499,8 +499,8 @@ select {
 
 /* 診断タイトルコンテナ */
 .flow-main-title {
-    background-color: #d4e2f4; 
-    border: 3px solid #ff80d7;
+    background-color: #be0d7731; 
+    border: 3px solid #c005a483;
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 30px;
@@ -513,7 +513,7 @@ select {
 /* 診断メインタイトル (h1) */
 .flow-main-title h1 {
     font-size: 2.5rem;
-    color: #df460e; /* メインカラーとして赤系を強調 */
+    color: #850206c6; /* メインカラーとして赤系を強調 */
     margin: 0 10px;
     padding: 0;
     text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
@@ -524,7 +524,7 @@ select {
 .flow-main-title p {
     font-family: 'Kiwi Maru', serif;
     font-size: 1.5rem;
-    color: #010002;
+    color: #190765;
     margin: 0;
     padding: 0;
     font-weight: bold;
@@ -830,9 +830,9 @@ a.btn-3d-flip.btn-3d-flip2:hover .btn-3d-flip-box2 {
   -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
 
-  color: #fff;
+  color: #0b0c00;
   border: 2px solid #f4f4ee; 
-  background: #1565a7; /* フリップ後の色 */
+  background: #b5d20d; /* フリップ後の色 */
   font-size: 1.1em;
 }
 @media screen and (max-width: 600px) {
