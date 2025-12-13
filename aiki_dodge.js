@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('overlay');
     const message = document.getElementById('message');
     const startButton = document.getElementById('start-button');
-    // 修正: HTMLのIDに合わせる
     const leftButton = document.getElementById('left-button'); 
     const rightButton = document.getElementById('right-button');
     const endGameButton = document.getElementById('end-game-button');
@@ -46,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // ステージ設定 (ステージ2まで)
     const STAGE_SETTINGS = {
-        1: { TARGET_SCORE: 5, TIME_LIMIT: 30, objectSpeed: 3, stageTitle: 'ファーストステージ' },
-        2: { TARGET_SCORE: 5, TIME_LIMIT: 30, objectSpeed: 4.5, stageTitle: 'ファイナルステージ' },
+        1: { TARGET_SCORE: 5, TIME_LIMIT: 30, objectSpeed: 3, stageTitle: '体捌き基礎編' },
+        2: { TARGET_SCORE: 5, TIME_LIMIT: 30, objectSpeed: 4.5, stageTitle: '合気道応用編' },
     };
     const MAX_STAGE = Object.keys(STAGE_SETTINGS).length; 
     let TARGET_SCORE;
@@ -83,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (score >= TARGET_SCORE && isGameRunning) {
             if (currentStage < MAX_STAGE) { 
-                // 🔴 ステージ遷移ロジックを修正: currentStageをインクリメントせずに、次のステージ番号を渡す
-                nextStage(currentStage + 1);
+                // ステージ遷移: setupStageを直接呼び出し、次のステージへ
+                setupStage(currentStage + 1);
             } else {
                 endGame('SUCCESS');
             }
@@ -106,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     
-    // === アイテム/障害物の生成 ===
+    // === アイテム/障害物の生成 (変更なし) ===
     function spawnObject(type) {
         if (!isGameRunning || isPaused) return;
         
@@ -133,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gameArea.appendChild(objectElement);
     }
 
-    // === ゲームループ ===
+    // === ゲームループ (変更なし) ===
     function gameUpdate(timestamp) {
         if (!isGameRunning || isPaused) {
             cancelAnimationFrame(gameLoop);
@@ -210,12 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- ゲーム開始/終了/一時停止制御 ---
     
-    // 🔴 修正: startGame関数は不要。setupStage(1)で初期化する。
-    // function startGame() {
-    //     currentStage = 1; 
-    //     setupStage(currentStage);
-    // }
-
     function setupStage(stageNum) {
         // ゲーム停止状態を確実にリセット
         isGameRunning = false;
@@ -225,14 +218,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ステージ設定の適用
         const settings = STAGE_SETTINGS[stageNum];
-        // 🔴 currentStage をここで設定し直す (nextStageからの移行を考慮)
         currentStage = stageNum;
         TARGET_SCORE = settings.TARGET_SCORE;
         objectSpeed = settings.objectSpeed;
         timeLeft = settings.TIME_LIMIT; 
 
         // リセット処理
-        hp = INITIAL_HP; 
+        if (stageNum === 1) { 
+            hp = INITIAL_HP; // ステージ1開始時のみHPリセット
+        }
         score = 0;
         updateHP(0);
 
@@ -241,21 +235,34 @@ document.addEventListener('DOMContentLoaded', () => {
         playerX = gameArea.clientWidth / 2;
         player.style.left = `${playerX - playerWidth / 2}px`;
         
-        // UI表示 (ステージ開始前は rulesBox を表示)
+        // UI表示
         overlay.style.display = 'flex';
         endGameButton.style.display = 'none';
         pauseMenu.style.display = 'none';
-        rulesBox.style.display = 'block'; 
+        
+        // 🔴 修正: ステージ1の時のみルールを表示
+        rulesBox.style.display = (stageNum === 1) ? 'block' : 'none'; 
         startButton.style.display = 'block';
         message.style.display = 'block';
         
-        message.innerHTML = `<h2>ステージ${stageNum} : ${settings.stageTitle}</h2>
-                                 <p>🌸 目標桜数: **${TARGET_SCORE}**個 / 制限時間 **${timeLeft}秒**</p>`;
+        // 🔴 修正: メッセージの表示内容を変更
+        if (stageNum === 1) {
+            // ステージ1/再挑戦時
+            message.innerHTML = `<h2>ステージ${stageNum} : ${settings.stageTitle}</h2>
+                                <p>🌸 目標桜数: **${TARGET_SCORE}**個 / 制限時間 **${timeLeft}秒**</p>`;
+        } else {
+            // ステージクリア後の待機画面
+            message.innerHTML = `<div class="result-box">
+                                    <h1>ステージ${stageNum}へ！</h1>
+                                    <p>🎉 お見事！HPを維持したまま次へ！</p>
+                                    <p class="warning">⚠️ 落下速度が上がります！ 🌸 目標桜数: **${settings.TARGET_SCORE}**個</p>
+                                 </div>`;
+        }
+
         startButton.textContent = `ステージ${stageNum} スタート`;
-        
         scoreDisplay.textContent = `🌸: ${score} / ${TARGET_SCORE} | ⏱: ${timeLeft}秒`;
 
-        // スタートボタンのリスナーをここで設定
+        // スタートボタンのリスナーを設定
         startButton.onclick = () => startRunning();
     }
     
@@ -267,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // UI表示の切り替え
         overlay.style.display = 'none';
         endGameButton.style.display = 'block';
-        rulesBox.style.display = 'none'; // ゲーム開始時はルールボックスを非表示に
+        rulesBox.style.display = 'none'; 
         pauseMenu.style.display = 'none';
 
         // タイマー開始
@@ -283,46 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
         gameLoop = requestAnimationFrame(gameUpdate);
     }
 
-    function nextStage(nextStageNum) {
-        // ゲーム中断
-        isGameRunning = false; 
-        isPaused = false;
-        cancelAnimationFrame(gameLoop);
-        clearInterval(timerInterval);
-
-        // 次のステージの準備
-        const settings = STAGE_SETTINGS[nextStageNum];
-        TARGET_SCORE = settings.TARGET_SCORE;
-        objectSpeed = settings.objectSpeed;
-        timeLeft = settings.TIME_LIMIT; 
-        score = 0; 
-        currentStage = nextStageNum; // ステージ番号を更新 
-
-        gameArea.querySelectorAll('.branch, .cherry, .beer').forEach(el => el.remove());
-        
-        // UI表示 (ステージクリア後の待機画面)
-        overlay.style.display = 'flex';
-        endGameButton.style.display = 'none';
-        pauseMenu.style.display = 'none';
-        rulesBox.style.display = 'none'; 
-        startButton.style.display = 'block';
-        message.style.display = 'block';
-
-        // メッセージを更新してステージ開始を待つ
-        let stageMessage = `<h2>ステージ${nextStageNum}へ！</h2>`;
-        stageMessage += `<p>👑 HPを維持したまま次へ！</p>`;
-        stageMessage += `<p>落下速度が上がります。🌸 目標桜数: **${settings.TARGET_SCORE}**個</p>`;
-        message.innerHTML = stageMessage;
-        
-        startButton.textContent = `ステージ${nextStageNum} スタート`;
-        startButton.onclick = () => startRunning();
-        
-        scoreDisplay.textContent = `🌸: ${score} / ${TARGET_SCORE} | ⏱: ${timeLeft}秒`;
-    }
-
 
     function pauseGame() {
-        if (!isGameRunning) return; // ゲームが実行中でなければポーズしない
+        if (!isGameRunning) return; 
         isPaused = true;
         clearInterval(timerInterval);
         cancelAnimationFrame(gameLoop);
@@ -363,43 +333,46 @@ document.addEventListener('DOMContentLoaded', () => {
         pauseMenu.style.display = 'none';
         startButton.style.display = 'block';
         message.style.display = 'block';
-        currentStage = 0; // ゲームオーバー時はステージをリセット
 
-        // rulesBoxの表示制御
-        if (endMessage.includes('SUCCESS') || endMessage.includes('PLAYER QUIT')) {
-            rulesBox.style.display = 'none';
-        } else {
-            // GAME OVER や TIME OVER の場合は、ゲーム再開前にルールを見せるために表示を維持
-            rulesBox.style.display = 'block'; 
-        }
+        // ゲームオーバー時はステージをリセットし、再挑戦のためにルールボックスを表示
+        currentStage = 0; 
+        rulesBox.style.display = (endMessage.includes('GAME OVER') || endMessage.includes('TIME OVER')) ? 'block' : 'none'; 
 
-        let resultText = `<h2>結果発表</h2>`;
-        resultText += `<p>👑 **残りのHP:** ${hp} / ${INITIAL_HP}</p>`;
+        // 🔴 修正: 結果画面のコンテンツ
+        let resultText = `<div class="result-box ${endMessage.includes('SUCCESS') ? 'success-box' : ''}">`; 
         
         if (endMessage.includes('GAME OVER')) {
-            resultText += `<p>🌸 獲得した桜: **${score}**個</p>`;
-            resultText += `<p>**残念！HPがなくなってしまいました。**</p>`;
+            resultText += `<h1>💥 残念！鍛錬不足！！ 💥</h1>`;
+            resultText += `<p>👑 残りのHP: **${hp} / ${INITIAL_HP}**</p>`;
+            resultText += `<p>🌸 獲得した桜: **${score}**個 (ステージ${currentStage + 1}敗退)</p>`;
+            resultText += `<p class="detail">薪をよけきれませんでした。あきらめず体捌きを磨きましょう！</p>`;
         
         } else if (endMessage.includes('TIME OVER')) {
-            resultText += `<p>🌸 獲得した桜: **${score}**個</p>`;
-            resultText += `<p>**タイムオーバーです！** 制限時間内に🌸を集められませんでした。</p>`;
+            resultText += `<h1>⌛ タイムアップ！ ⌛</h1>`;
+            resultText += `<p>👑 残りのHP: **${hp} / ${INITIAL_HP}**</p>`;
+            resultText += `<p>🌸 獲得した桜: **${score}**個 (ステージ${currentStage + 1}敗退)</p>`;
+            resultText += `<p class="detail">制限時間内に目標の桜を集められませんでした。</p>`;
         
         } else if (endMessage.includes('SUCCESS')) {
-            resultText += `<p>🌸 桜を**${STAGE_SETTINGS[MAX_STAGE].TARGET_SCORE}**個集めました！</p>`; 
-            resultText += `<p>**🎉 祝！全ステージクリア達成！**</p>`;
+            resultText += `<h1>🎉 ㊗️ 全ステージ完全制覇！ ㊗️</h1>`; // 全クリアを強調
+            resultText += `<p>👑 **残りのHP:** **${hp}** / ${INITIAL_HP}</p>`; 
+            resultText += `<p>🌸 **獲得した桜:** ${STAGE_SETTINGS[MAX_STAGE].TARGET_SCORE * MAX_STAGE}個</p>`; 
+            resultText += `<p class="detail">合気道の体捌き、お見事！</p>`;
         } else { // PLAYER QUIT
+            resultText += `<h1>⏸️ ゲーム終了 ⏸️</h1>`;
             resultText += `<p>🌸 獲得した桜: **${score}**個</p>`;
-            resultText += '<p>ゲームが途中で終了しました。</p>';
+            resultText += '<p class="detail">ゲームが途中で終了しました。</p>';
         }
         
+        resultText += `</div>`;
         message.innerHTML = resultText;
         startButton.textContent = 'もう一度プレイ';
         
-        // 🔴 修正: startButton.onclick = () => setupStage(1); に修正
+        // 再挑戦はステージ1から
         startButton.onclick = () => setupStage(1); 
     }
     
-    // --- イベントリスナー ---
+    // --- イベントリスナー (変更なし) ---
     document.addEventListener('keydown', (e) => {
         if (!isGameRunning || isPaused) return;
         
@@ -434,11 +407,9 @@ document.addEventListener('DOMContentLoaded', () => {
     quitButton.addEventListener('click', () => endGame('PLAYER QUIT')); 
 
     flowButton.addEventListener('click', () => { 
-        // 外部ファイルへの遷移は、ゲームの状態に関わらず実行されます
         window.location.href = 'aiki-flow.html'; 
     });
     
     // --- 初期設定 ---
-    // ゲーム開始時、ステージ1の設定をロードする (setupStage(1)がUI表示とスタートボタンの設定を行う)
     setupStage(1); 
 });

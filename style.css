@@ -132,12 +132,12 @@ main {
 }
 
 section {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(10, 2, 30, 0.85);
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     margin-top: 1.5rem;
     border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(100, 100, 100, 0.1);
+    box-shadow: 0 4px 8px rgba(241, 241, 241, 0.985);
     z-index: 2;
     position: relative;
     box-sizing: border-box;
@@ -336,17 +336,55 @@ select {
     box-sizing: border-box;
     position: relative;
     z-index: 3;
+    text-align: center;
 }
 
+.sub-navigation h2 {
+    color: #f2f1f7; /* 背景をつけるため、文字色は暗くする */
+    font-size: 1.8rem;
+    font-weight: 900;
+    
+    /* 🔴 新しく追加する設定 */
+    display: inline-block; /* 背景を文字の幅に合わせる */
+    background-color: #a91f28; /* 薄い黄色を背景に */
+    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(116, 161, 4, 0.2); /* 影をつけて浮き上がらせる */
+}
+
+.stump-center {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* 🔴 修正/追加: ここにボタン単独の強制マージンを追加 */
+.sub-navigation .button-stump {
+    /* 他のページで影響が出ないよう、.sub-navigation の中にある .button-stump に限定 */
+    margin-left: auto;
+    margin-right: auto;
+    display: block; /* ブロック要素にして margin: auto を有効化 */
+    width: fit-content; /* コンテンツの幅に合わせる */
+}
+
+/* 4-B. サブナビゲーションのテキストに適用 */
+.sub-navigation .stump-text {
+    font-weight: 700; /* 例: 太字にする */
+    /* 必要に応じて文字色などもここで調整できます */
+}
 .sub-navigation ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 auto;
+    justify-content: center; /* Flexアイテム（li）を水平方向の中央に配置 */
+    width: 100%; /* 親要素（.sub-navigation）の幅全体を使う */
 }
 
 .sub-navigation li {
     display: inline-block;
-    margin: 0 12px;
+    margin: 0 8px;
+    position: relative;
+    left: 1px;
 }
 
 .sub-navigation a {
@@ -507,7 +545,7 @@ select {
 }
 #result-description { 
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    border: 1px solid #4f8928;
     border-radius: 10px;
     padding: 15px;
     margin-top: 20px;
@@ -777,7 +815,7 @@ a.btn-3d-flip.btn-3d-flip2:hover .btn-3d-flip-box2 {
 /* --- ゲームボタン用の緑色デザイン (Greeen Theme) --- */
 .btn-3d-flip-box-face--front-game {
   color: #f2edf5; 
-  border: 2px solid #034138; 
+  border: 2px solid #fdfdfd; 
   background: #b61889; 
   font-size: 1.1em;
 }
@@ -793,7 +831,7 @@ a.btn-3d-flip.btn-3d-flip2:hover .btn-3d-flip-box2 {
   transform-origin: 0 0;
 
   color: #fff;
-  border: 2px solid #285417; 
+  border: 2px solid #f4f4ee; 
   background: #1565a7; /* フリップ後の色 */
   font-size: 1.1em;
 }
