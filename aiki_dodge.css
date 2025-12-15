@@ -158,7 +158,7 @@ body {
 
 .result-box h1 {
     font-size: 2.5em;
-    color: #DAA520; /* 濃いゴールドの文字 */
+    color: #1a1a1a; /* ✅ 濃いグレー/黒に変更して視認性を向上 */
     margin-top: 0;
     margin-bottom: 15px;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9); /* 白い縁取りで読みやすく */
@@ -198,10 +198,17 @@ body {
 }
 
 .success-box h1 {
-    color: #8B0000; /* H1のテキストを濃い赤色に */
-    text-shadow: 2px 2px 4px white; /* 白い立体感 */
+    color: #000000; /* 文字色は黒を維持 */
+    /* ✅ 修正: 複数の白い影を重ねて、文字の周囲に太い縁取り（アウトライン）効果を作成 */
+    text-shadow: 
+        1px 1px 0 #FFFFFF, 
+        -1px -1px 0 #FFFFFF,
+        1px -1px 0 #FFFFFF,
+        -1px 1px 0 #FFFFFF,
+        0 0 5px #FFFFFF; 
     border-bottom: 2px solid #8B0000;
 }
+
 .success-box p {
     color: #333; 
     text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
