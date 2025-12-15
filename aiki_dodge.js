@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPaused = false; 
     let timerInterval;
     
-    let playerX = gameArea.clientWidth / 2;
+    let playerX =0;
     const playerWidth = 80;
     const playerHeight = 150;
     const playerBottomOffset = 90; 

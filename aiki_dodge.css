@@ -57,15 +57,16 @@ body {
     position: relative;
     background: #f7f7f7;
     overflow: hidden;
+    width: 100%;
 }
 
 #player {
     position: absolute;
     bottom: 30px; 
-    left: 50%;
-    transform: translateX(-50%);
+    /*left: 50%;
+    transform: translateX(-50%);*/
     width: 80px;
-    height: auto;
+    height: 150px;
     transition: left 0.1s linear; 
     z-index: 10;
     /* 以前の余白削除の試みで追加した可能性のあるプロパティを確実に設定 */
@@ -197,7 +198,7 @@ body {
 }
 
 .success-box h1 {
-    color: #000000; 
+    color: #8B0000; /* H1のテキストを濃い赤色に */
     text-shadow: 2px 2px 4px white; /* 白い立体感 */
     border-bottom: 2px solid #8B0000;
 }
