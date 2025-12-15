@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const playerWidth = 80;
     const playerHeight = 150;
     const playerBottomOffset = 90; 
+    // 🎯 当たり判定調整用の定数
+    const PLAYER_COLLISION_WIDTH_RATIO = 0.4; // プレイヤーの幅の40%を当たり判定に使う
+    const PLAYER_COLLISION_HEIGHT_FROM_BOTTOM = 40; // プレイヤー画像の最下端から40px上までを当たり判定の高さとする
 
     // プレイヤーの速度と移動状態の管理
     const PLAYER_SPEED = 6; 
@@ -167,15 +170,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 2. アイテム/障害物の移動と衝突判定
-        const objects = gameArea.querySelectorAll('.branch, .cherry, .beer'); 
+        const objects = gameArea.querySelectorAll('.branch, .cherry, .beer');
+        // プレイヤーの当たり判定領域を再計算
+        const collisionWidth = playerWidth * PLAYER_COLLISION_WIDTH_RATIO;
+        
+        const playerRect = {
+            // 左右: プレイヤーの中心から衝突幅の半分だけ広げる
+            left: playerX - collisionWidth / 2, 
+            right: playerX + collisionWidth / 2,
+            // 上下: 下端から COLLISION_HEIGHT_FROM_BOTTOM だけ上までを判定とする
+            // プレイヤーの表示位置 (bottom: 30px) と、その画像サイズ (height: 150px) から計算する
+            top: gameArea.clientHeight - playerBottomOffset - PLAYER_COLLISION_HEIGHT_FROM_BOTTOM,
+            bottom: gameArea.clientHeight - playerBottomOffset
+        }; 
         
-        const playerRect = {
-            left: playerX - playerWidth / 2 + 10,
-            right: playerX + playerWidth / 2 - 10,
-            top: gameArea.clientHeight - playerHeight + playerBottomOffset,
-            bottom: gameArea.clientHeight - playerBottomOffset
-        };
-
         for (const obj of objects) { 
             let currentY = parseFloat(obj.style.top) || 0;
             currentY += objectSpeed; 
@@ -343,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ゲームオーバー時はステージをリセットし、再挑戦のためにルールボックスを表示
         currentStage = 0; 
-        rulesBox.style.display = (endMessage.includes('GAME OVER') || endMessage.includes('TIME OVER')) ? 'block' : 'none'; 
+        rulesBox.style.display = 'none'; 
 
         // 🔴 修正: 結果画面のコンテンツ
         let resultText = `<div class="result-box ${endMessage.includes('SUCCESS') ? 'success-box' : ''}">`; 
