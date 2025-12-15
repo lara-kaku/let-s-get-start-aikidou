@@ -1,4 +1,4 @@
-/* 全体のリセットと背景 (変更なし) */
+/* 全体のリセットと背景 */
 body {
     display: flex;
     justify-content: center;
@@ -10,7 +10,7 @@ body {
     overflow: hidden; /* スクロール防止 */
 }
 
-/* ゲームコンテナ (修正: max-heightの構文エラーを修正) */
+/* ゲームコンテナ */
 #game-container {
     width: 100%;
     max-width: 500px;
@@ -22,9 +22,11 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     position: relative;
     overflow: hidden; 
+    display: flex; /* コンテンツを縦に並べるためにFlexboxを適用 */
+    flex-direction: column;
 }
 
-/* 状態表示バー (変更なし) */
+/* 状態表示バー */
 #status-bar {
     display: flex;
     justify-content: space-between;
@@ -34,6 +36,7 @@ body {
     font-weight: bold;
     font-size: 1.2em;
     border-bottom: 2px solid #8d6741;
+    flex-shrink: 0;
 }
 #hp { color: #D32F2F; }
 #score { color: #8D6741; }
@@ -50,20 +53,25 @@ body {
 
 /* ゲームエリア/プレイヤー */
 #game-area {
-    /* PC/デフォルト時: 100% - 50px (status-bar) - 70px (flow-button) */
-    height: calc(100% - 120px); 
+    flex-grow: 1; 
     position: relative;
     background: #f7f7f7;
+    overflow: hidden;
 }
+
 #player {
     position: absolute;
-    bottom: 70px; 
+    bottom: 30px; 
     left: 50%;
     transform: translateX(-50%);
     width: 80px;
     height: auto;
     transition: left 0.1s linear; 
     z-index: 10;
+    /* 以前の余白削除の試みで追加した可能性のあるプロパティを確実に設定 */
+    padding: 0; 
+    margin: 0; 
+    display: block;
 }
 
 /* 障害物・アイテムの共通スタイル (変更なし) */
@@ -81,37 +89,35 @@ body {
 /* --- オーバーレイ（スタート・ゲームオーバー画面） --- */
 #overlay {
     position: absolute;
-    top: 0;
+    top: 70px;
     left: 0;
     width: 100%;
-    /* 修正: 高さを '戻るボタン' の上端に合わせる */
-    height: calc(100% - 70px); 
+    bottom: 70px;                 /* ← これが重要 */
     background: rgba(0, 0, 0, 0.85);
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
     z-index: 95;
     gap: 15px;
-    overflow-y: auto; 
-    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #overlay h1 {
     font-size: 3em;
+    margin-top: 5px; /* タイトル切断対策でマージンを最小限に */
     margin-bottom: 10px;
     color: #FFD700;
 } 
-
 #overlay button {
     padding: 12px 25px;
     font-size: 1.6em;
     cursor: pointer;
     border: none;
     border-radius: 8px;
-    background-color: #FFC107; /* 琥珀色 */
+    background-color: #FFC107;
     color: #333;
     font-weight: bold;
     box-shadow: 0 6px #FF9800; 
@@ -128,23 +134,95 @@ body {
     margin-top: 0; 
 }
 
-
-/* ルール説明ボックスのスタイル (変更なし) */
-#rules-box {
-    background-color: rgba(255, 255, 255, 0.95);
+/* ルール説明ボックスのスタイル */
+.result-box {
+    /* 中央に寄せるためのマージン */
+    margin: 40px auto 20px auto; 
+    
+    /* 基本デザイン */
+    background-color: rgba(255, 255, 255, 0.98); /* ほぼ不透明な白 */
     color: #333;
-    padding: 20px;
-    margin: 10px auto; 
+    padding: 30px 25px;
     width: 90%;
     max-width: 400px;
-    border-radius: 10px;
-    text-align: left;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    text-align: center;
+    
+    /* ステージクリア時の強調スタイル */
+    border: 5px solid #FFD700; /* 強い金色の枠 */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 140, 0, 0.6); /* 強力な光のシャドウ */
+    transform: scale(1);
+    transition: all 0.5s ease-out;
+}
+
+.result-box h1 {
+    font-size: 2.5em;
+    color: #DAA520; /* 濃いゴールドの文字 */
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9); /* 白い縁取りで読みやすく */
+    border-bottom: 2px solid #FFD700;
+    padding-bottom: 10px;
+}
+
+.result-box p {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #555;
+    margin: 10px 0;
+}
+.result-box .warning {
+    color: #D32F2F; /* 赤で速度上昇を警告 */
+    font-size: 1.1em;
+    margin-top: 15px;
+}
+.result-box .detail {
+    font-size: 0.9em;
+    color: #777;
+    margin-top: 20px;
+}
+
+
+/* 🏆 全ステージ完全制覇 (GAME SUCCESS) 時の特別なスタイル 🏆 */
+.success-box {
+    /* 背景と枠を究極に目立たせる */
+    background: #FFD700;
+    color: #333; 
+    border: 7px solid #8B0000; /* 濃い赤の太枠 */
+    
+    /* 🔴 修正: 影の強さを大幅に緩和し、標準的な影にする */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    /* アニメーション適用 */
+    animation: successScale 1s ease-in-out infinite alternate, hueRotate 10s linear infinite;
+}
+
+.success-box h1 {
+    color: #000000; 
+    text-shadow: 2px 2px 4px white; /* 白い立体感 */
+    border-bottom: 2px solid #8B0000;
+}
+.success-box p {
+    color: #333; 
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+
+/* 勝利アニメーションの定義 */
+/* 1. スケールと影の揺らぎ */
+@keyframes successScale {
+    0% { transform: scale(1.0); }
+    100% { transform: scale(1.03); }
+}
+/* 2. 色相環の回転（オプション：色を周期的に変える）*/
+@keyframes hueRotate {
+    from { filter: hue-rotate(0deg); }
+    to { filter: hue-rotate(360deg); }
 }
 #rules-box h2 {
     text-align: center;
     margin-top: 0;
-    color: #4CAF50;
+    /* 🔴 修正: ルール説明の文字を黄色 (#FFD700) に設定 */
+    color: #FFD700; 
     border-bottom: 2px solid #E0E0E0;
     padding-bottom: 5px;
 }
@@ -158,65 +236,7 @@ body {
     font-size: 1.1em;
 }
 
-/* 🔴 修正: 結果ボックスのスタイル（ゲームクリア/オーバー画面） */
-#message {
-    font-size: 1.2em;
-}
-
-.result-box { 
-    background-color: rgba(255, 255, 255, 0.95);
-    color: #333;
-    padding: 30px 20px;
-    margin: 10px auto; 
-    width: 90%;
-    max-width: 450px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-    border: 5px solid #FFD700; /* 全クリア時のデフォルトボーダー */
-    transition: border-color 0.5s;
-}
-
-.result-box h1 {
-    font-size: 2.5em;
-    margin-top: 0;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
-}
-
-/* 成功時 */
-.success-box {
-    border-color: #FFD700; /* 金色 */
-}
-.success-box h1 {
-    color: #FFD700; 
-    animation: pulse 1s infinite alternate;
-}
-
-/* ゲームオーバー時 */
-.result-box:not(.success-box) h1:first-child {
-    color: #D32F2F; /* 赤 */
-}
-/* タイムオーバー時 */
-.result-box h1:contains("タイムアップ") {
-    color: #FFA000; /* オレンジ */
-}
-
-/* 詳細説明テキスト */
-.result-box .detail {
-    font-size: 1.1em;
-    margin-top: 15px;
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
-}
-
-/* ステージ切り替え時の警告テキストのスタイル */
-.warning {
-    color: #F44336;
-    font-weight: bold;
-}
-
-/* 脈打つアニメーション */
+/* 脈打つアニメーション (変更なし) */
 @keyframes pulse {
     from { transform: scale(1); }
     to { transform: scale(1.05); }
@@ -225,57 +245,48 @@ body {
 
 /* モバイル操作ボタン */
 #mobile-controls {
+    /* デフォルトは非表示 */
     display: none; 
-    position: absolute;
-    bottom: 70px; /* 戻るボタンの上に配置 */
-    left: 0;
-    width: 100%;
-    padding: 10px 0;
+    width: 100%; 
+    padding: 5px 0; 
     background: rgba(0, 0, 0, 0.5);
     justify-content: space-around;
     z-index: 50;
-    height: 60px; 
+    height: 50px; 
+    flex-shrink: 0; 
 }
-
-/* モバイル時の調整 */
-@media (max-width: 600px) {
-    #mobile-controls {
-        display: flex; 
-    }
-    #game-container {
-        height: calc(100vh - 60px); 
-        border-radius: 0;
-    }
-    #game-area {
-        /* モバイル時: 100% - 50px(status) - 70px(flow) - 80px(mobile-controls) */
-        height: calc(100% - 50px - 70px - 80px);
-    }
-    #player {
-        width: 70px;
-        bottom: 70px + 60px; /* 戻るボタン(70px) + モバイルボタンの底(60px)の上に配置 */
-    }
-    /* モバイル時、オーバーレイを '戻るボタン' の上端に合わせる */
-    #overlay {
-        height: calc(100% - 70px);
-    }
+/* モバイルボタン共通のスタイル */
+#mobile-controls button {
+    width: 45%; 
+    height: 100%;
+    background-color: #110837; 
+    color: #FFC107;
+    border: 2px solid #e7f29e; 
+    border-radius: 8px; 
+    font-size: 1.4em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.1s, transform 0.1s;
+    user-select: none; 
+}
+/* ボタンが押された時のフィードバック */
+#mobile-controls button:active {
+    background-color: #f7f7f7; 
+    transform: scale(0.98);
 }
 
 
 /* flow-button-container */
 #flow-button-container {
-    position: absolute;
-    bottom: 0; 
-    left: 0;
     width: 100%;
     display: flex;
     justify-content: center;
     padding: 8px 0;
     background-color: #dcc4ab; 
     z-index: 100; 
-    min-height: 50px; 
     box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
 }
-
 #return-to-flow-button {
     padding: 10px 20px;
     font-size: 1.2em;
@@ -288,145 +299,28 @@ body {
     box-shadow: 0 4px 0 #38761D;
     transition: background-color 0.2s;
 }
-
 #return-to-flow-button:hover {
     background-color: #6AA84F;
-}
-
-/* aiki_dodge.css の #mobile-controls の下に追加・修正 */
-
-/* モバイル操作ボタン全体 */
-#mobile-controls {
-    display: none; 
-    position: absolute;
-    bottom: 70px; /* 戻るボタンの上に配置 */
-    left: 0;
-    width: 100%;
-    padding: 10px 0;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: space-around;
-    z-index: 50;
-    height: 80px; /* 高さを60pxから80pxに拡大 */
-}
-
-/* モバイルボタン共通のスタイル */
-#mobile-controls button {
-    width: 45%; /* 幅を広げる */
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8); /* 半透明の白で背景とのコントラストを付ける */
-    color: #333;
-    border: 3px solid #333;
-    border-radius: 10px;
-    font-size: 1.8em; /* 文字を大きく */
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.1s, transform 0.1s;
-    user-select: none; /* テキスト選択を防止 */
-}
-
-/* ボタンが押された時のフィードバック */
-#mobile-controls button:active {
-    background-color: #FFC107; /* 押されたら琥珀色に */
-    transform: scale(0.98);
-}
-
-
-/* モバイル時の @media クエリ内の調整 */
-@media (max-width: 600px) {
-    /* aiki_dodge.css の #mobile-controls セクションを以下に置き換えてください */
-
-/* モバイル操作ボタン */
-#mobile-controls {
-    display: none; 
-    position: absolute;
-    bottom: 70px; /* 戻るボタンの上に配置 */
-    left: 0;
-    width: 100%;
-    padding: 5px 0; /* 上下のパディングを減らしてコンパクトに */
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: space-around;
-    z-index: 50;
-    height: 60px; /* 60pxに戻す (元の設定に近い) */
-}
-
-/* モバイルボタン共通のスタイル */
-#mobile-controls button {
-    width: 45%; /* 幅を広めに保ち、押しやすさを維持 */
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8); 
-    color: #333;
-    border: 2px solid #333; /* 境界線を細く */
-    border-radius: 8px; /* 角丸を小さく */
-    font-size: 1.6em; /* 文字サイズを少し抑える */
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.1s, transform 0.1s;
-    user-select: none; 
-}
-
-/* ボタンが押された時のフィードバック */
-#mobile-controls button:active {
-    background-color: #FFC107; 
-    transform: scale(0.98);
-}
-/* aiki_dodge.css の #mobile-controls セクションを以下に置き換えてください */
-
-/* モバイル操作ボタン */
-#mobile-controls {
-    display: none; 
-    position: absolute;
-    bottom: 70px; /* 戻るボタンの上に配置 */
-    left: 0;
-    width: 100%;
-    padding: 5px 0; /* 上下のパディングを減らしてコンパクトに */
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: space-around;
-    z-index: 50;
-    height: 50px; /* 🔴 修正点: 高さを50pxに設定 */
-}
-
-/* モバイルボタン共通のスタイル */
-#mobile-controls button {
-    width: 45%; 
-    height: 100%;
-    background-color: #110837; 
-    color: #FFC107;
-    border: 2px solid #e7f29e; 
-    border-radius: 8px; 
-    font-size: 1.4em; /* 🔴 修正点: フォントサイズを小さく */
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.1s, transform 0.1s;
-    user-select: none; 
-}
-
-/* ボタンが押された時のフィードバック */
-#mobile-controls button:active {
-    background-color: #f7f7f7; 
-    transform: scale(0.98);
 }
 
 
 /* モバイル時の @media クエリ内の調整 */
 @media (max-width: 600px) {
     #mobile-controls {
-        display: flex; 
-        bottom: 70px; /* 戻るボタンの上に配置 */
-        height: 50px; /* 高さを適用 */
-        padding: 5px 0;
+        display: flex; /* モバイルでのみ表示 */
     }
-
     
-    #game-area {
-        /* モバイル時: 100% - 50px(status) - 70px(flow) - 60px(mobile-controls) */
-        height: calc(100% - 50px - 70px - 60px); /* プレイヤーが隠れないよう調整 */
+    #game-container {
+        height:100vh ; 
+        border-radius: 0;
     }
+    
     #player {
-        /* 戻るボタン(70px) + モバイルボタン(60px) の上に配置 */
-        bottom: 70px + 60px; /* プレイヤーの位置を再調整 (50px + 5pxパディング*2) */
+        width: 80px; /* PCとモバイルで幅を統一 */
     }
-    /* #overlay の高さは変更なし */
-}
-
-/* モバイル時の @media クエリ内の調整 */
+    
+    #overlay {
+        top: 70px;
+        height: calc(100% - 190px); 
+    }
 }

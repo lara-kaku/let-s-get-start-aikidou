@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hpDisplay = document.getElementById('hp');
     const scoreDisplay = document.getElementById('score');
     const overlay = document.getElementById('overlay');
+    const mobileControls = document.getElementById('mobile-controls');
     const message = document.getElementById('message');
     const startButton = document.getElementById('start-button');
     const leftButton = document.getElementById('left-button'); 
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let playerX = gameArea.clientWidth / 2;
     const playerWidth = 80;
     const playerHeight = 150;
-    const playerBottomOffset = 30; 
+    const playerBottomOffset = 90; 
 
     // プレイヤーの速度と移動状態の管理
     const PLAYER_SPEED = 6; 
@@ -277,6 +278,11 @@ document.addEventListener('DOMContentLoaded', () => {
         rulesBox.style.display = 'none'; 
         pauseMenu.style.display = 'none';
 
+        // 🔴 修正箇所: ゲーム開始時、モバイルボタンを表示
+        if (window.innerWidth <= 600) {
+            mobileControls.style.display = 'flex';
+        }
+
         // タイマー開始
         clearInterval(timerInterval);
         timerInterval = setInterval(updateTimer, 1000); 
@@ -288,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lastBeerSpawnTime = performance.now();
 
         gameLoop = requestAnimationFrame(gameUpdate);
+        
     }
 
 
