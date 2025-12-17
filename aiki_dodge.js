@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ステージ設定 (ステージ2まで)
     const STAGE_SETTINGS = {
         1: { TARGET_SCORE: 5, TIME_LIMIT: 30, objectSpeed: 3, stageTitle: '体捌き基礎編' },
-        2: { TARGET_SCORE: 5, TIME_LIMIT: 30, objectSpeed: 4.5, stageTitle: '合気道応用編' },
+        2: { TARGET_SCORE: 5, TIME_LIMIT: 30, objectSpeed: 6, stageTitle: '体捌き上級編' },
     };
     const MAX_STAGE = Object.keys(STAGE_SETTINGS).length; 
     let TARGET_SCORE;
