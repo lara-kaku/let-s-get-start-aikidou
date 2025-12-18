@@ -10,7 +10,7 @@ export const eventDates = {
     "2025-11-23": { type: "event", text: "昇級審査会" }, 
 
     // 2025年12月
-    "2025-12-20": { type: "closed", text: "稽古休み" }, 
+    
     "2025-12-24": { type: "closed", text: "稽古休み" },
     "2025-12-27": { type: "closed", text: "稽古休み" }, 
     "2025-12-21": { type: "event", text: "忘年会" }, // 例: 稽古休みだが納会がある
